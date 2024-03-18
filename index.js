@@ -6,11 +6,13 @@ const app = express()
 //get route
 
 app.get('/',(req,res)=>{
-
     res.send('hello node API')
 
 })
 
+app.get('/blog',(req,res)=>{
+    res.send('Hello Blog')
+})
 
 app.listen(3000,()=>{
     console.log('node API app is running on port 3000')
