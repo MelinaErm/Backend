@@ -7,7 +7,7 @@ const app = express()
 //app.use(express.json()) //use middlewear 
 
 const mongoose = require('mongoose') //mongoose
-const Event = require('./models/eventModel');
+const Event = require('./models/eventModel'); //event Model
 
 
 //declare a route
@@ -16,7 +16,7 @@ app.get('/',(req,res)=>{
     res.send('hello node API')
 
 })
-
+//get another route
 app.get('/blog',(req,res)=>{
     res.send('Hello Blog')
 })
@@ -50,9 +50,9 @@ const newEvent = new Event({
 
 //save the event to the database
 newEvent.save()
-    .then((savedEvent) => {
-        console.log('Event saved:', savedEvent);
-    })
-    .catch((error) => {
-        console.error('Error saving event:', error);
-    });
+.then((savedEvent) => {
+    console.log('Event saved:', savedEvent);
+})
+.catch((error) => {
+    console.error('Error saving event:', error);
+});
