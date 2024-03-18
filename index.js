@@ -1,6 +1,8 @@
-console.log('this is a test no.3');
+console.log('this is a test');
 const express = require('express') //express 
 const app = express()
+
+//app.use(express.json()) //use middlewear 
 
 const mongoose = require('mongoose') //mongoose
 
@@ -15,6 +17,12 @@ app.get('/',(req,res)=>{
 app.get('/blog',(req,res)=>{
     res.send('Hello Blog')
 })
+
+
+//app.get('/event',(req,res)=>{
+//    console.log(req.body)
+//    res.send(req.body)
+//})
 
 
 //mongoose connection (mongo db)
