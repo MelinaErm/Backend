@@ -2,7 +2,6 @@
 const mongoose = require('mongoose')
 
 //create event model and event schema
-
 const eventSchema = mongoose.Schema(
 
     {
