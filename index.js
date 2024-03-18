@@ -40,7 +40,7 @@ mongoose.connect('mongodb+srv://admin:12!56!79@devapi.arzcgkl.mongodb.net/Node-A
     console.log(error)
 })
 
-//create a new event
+//create a new event - dummy data
 const newEvent = new Event({
     title: 'Sunavlia',
     city: 'Athens',
