@@ -23,6 +23,11 @@ app.get('/blog',(req,res)=>{
 
 //get details of the event
 app.get('/event',(req,res)=>{
+
+    //Object.keys(newEvent._doc).forEach(key => {
+    //    res.write(`${key}: ${newEvent[key]}\n`);
+    //});
+    //res.end();
     console.log(newEvent)
     res.send(newEvent)
 })
@@ -40,7 +45,7 @@ mongoose.connect('mongodb+srv://admin:12!56!79@devapi.arzcgkl.mongodb.net/Node-A
     console.log(error)
 })
 
-//create a new event - dummy data
+//create a new event
 const newEvent = new Event({
     title: 'Sunavlia',
     city: 'Athens',
