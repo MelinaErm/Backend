@@ -1,8 +1,7 @@
-console.log('this is a test');
-
+console.log('TEST');
 
 const express = require('express') //express 
-const app = express()
+const app = express() 
 
 //use middlewear 
 app.use(express.urlencoded({ extended: true }));
@@ -14,7 +13,7 @@ const Event = require('./models/eventModel'); //event Model
 
 //declare a route
 //get route
-//arxiki selida
+//Main Page
 app.get('/', (req, res) => {
     res.send(`
         <form action="/search" method="post">
@@ -26,12 +25,7 @@ app.get('/', (req, res) => {
 });
 
 
-//get another route
-//app.get('/blog',(req,res)=>{
-//    res.send('Hello Blog')
-//})
-
-// Αναζήτηση event με φίλτρα city και event type
+//search bar based on city, type
 app.post('/search', async (req, res) => {
     const { city, type } = req.body;
     try {
@@ -66,7 +60,7 @@ mongoose.connect('mongodb+srv://admin:12!56!79@devapi.arzcgkl.mongodb.net/Node-A
     console.log(error)
 })
 
-//create a new event - dummy data
+//create a new event 
 //const newEvent = new Event({
 //    title: 'Sunavlia',
 //    city: 'Athens',
@@ -83,13 +77,28 @@ mongoose.connect('mongodb+srv://admin:12!56!79@devapi.arzcgkl.mongodb.net/Node-A
 //    console.error('Error saving event:', error);
 //});
 
-// Δεδομένα προς αποθήκευση
+//example of event data
 const eventsData = [
-    { title: 'Sunavlia', city: 'Athens', type: 'Mousiki', price: 0 },
-    // Πρόσθεσε άλλα δεδομένα εδώ αν χρειάζεται
+    { title: 'Music Concert',
+      city: 'Athens', 
+      type: 'Music', 
+      price: 0 },
+    { title: 'Concert in the Park',
+      city: 'Thessaloniki',
+      type: 'Music',
+      price: 25 },
+    { title: 'Art Exhibition',
+      city: 'Athens',
+      type: 'Art',
+      price: 10 },
+    { title: 'Food Festival', 
+      city: 'Thessaloniki',
+      type: 'Food', 
+      price: 15 }
+    
 ];
 
-// Αποθήκευση events στη βάση δεδομένων
+//save events to the mongo db atabase
 Event.insertMany(eventsData)
     .then((savedEvents) => {
         console.log('Events saved:', savedEvents);
