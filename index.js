@@ -13,7 +13,7 @@ const Event = require('./models/eventModel'); //event Model
 
 //declare a route
 //get route
-//Main Page
+//Main Page with search bar
 app.get('/', (req, res) => {
     res.send(`
         <form action="/search" method="post">
@@ -25,16 +25,30 @@ app.get('/', (req, res) => {
 });
 
 
-//search bar based on city, type
+//search for events based on city, type
 app.post('/search', async (req, res) => {
     const { city, type } = req.body;
     try {
         const events = await Event.find({ city, type });
         res.json(events);
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'server error' });
     }
 });
+
+//get details of the specific event
+//app.get('/event/:eventId', async (req, res) => {
+//    const eventId = req.params.eventId;
+//    try {
+//        const event = await Event.findById(eventId);
+//        if (!event) {
+//            return res.status(404).json({ error: 'Event not found' });
+//        }
+//        res.json(event);
+ //   } catch (error) {
+ //       res.status(500).json({ error: 'Internal server error' });
+ //   }
+//});
 
 //get details of the event
 //app.get('/event',(req,res)=>{
