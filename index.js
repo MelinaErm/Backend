@@ -11,8 +11,9 @@ const mongoose = require('mongoose') //mongoose
 const Event = require('./models/eventModel'); //event Model
 
 
-//declare a route
+//declare routes
 //get route
+
 //Main Page with search bar
 app.get('/', (req, res) => {
     res.send(`
@@ -61,6 +62,28 @@ app.post('/search', async (req, res) => {
     //res.send(newEvent)
 //})
 
+//details of all events
+app.get('/events',async(req,res)=>{
+    try{
+        const events = await Event.find({});
+        res.status(200).json(events);
+    }
+    catch(error){
+        res.status(500).json({message:error.message})
+    }
+})
+
+//details of a specific event
+app.get('/events/:id',async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const event = await Event.findById(id);
+        res.status(200).json(event);
+    }
+    catch(error){
+        res.status(500).json({message:error.message})
+    }
+})
 
 //mongoose connection (mongo db)
 mongoose.connect('mongodb+srv://admin:12!56!79@devapi.arzcgkl.mongodb.net/Node-API?retryWrites=true&w=majority&appName=DevAPI')
