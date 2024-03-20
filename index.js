@@ -4,7 +4,9 @@ console.log('this is a test');
 const express = require('express') //express 
 const app = express()
 
-//app.use(express.json()) //use middlewear 
+//use middlewear 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const mongoose = require('mongoose') //mongoose
 const Event = require('./models/eventModel'); //event Model
@@ -12,25 +14,44 @@ const Event = require('./models/eventModel'); //event Model
 
 //declare a route
 //get route
-app.get('/',(req,res)=>{
-    res.send('hello node API')
+//arxiki selida
+app.get('/', (req, res) => {
+    res.send(`
+        <form action="/search" method="post">
+            <input type="text" name="city" placeholder="City">
+            <input type="text" name="type" placeholder="Event Type">
+            <button type="submit">Search</button>
+        </form>
+    `);
+});
 
-})
+
 //get another route
-app.get('/blog',(req,res)=>{
-    res.send('Hello Blog')
-})
+//app.get('/blog',(req,res)=>{
+//    res.send('Hello Blog')
+//})
+
+// Αναζήτηση event με φίλτρα city και event type
+app.post('/search', async (req, res) => {
+    const { city, type } = req.body;
+    try {
+        const events = await Event.find({ city, type });
+        res.json(events);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 //get details of the event
-app.get('/event',(req,res)=>{
+//app.get('/event',(req,res)=>{
 
-    Object.keys(newEvent._doc).forEach(key => {
-        res.write(`${key}: ${newEvent[key]}\n`);
-    });
-    res.end();
+ //   Object.keys(newEvent._doc).forEach(key => {
+ //       res.write(`${key}: ${newEvent[key]}\n`);
+ ///   });
+  //  res.end();
     //console.log(newEvent)
     //res.send(newEvent)
-})
+//})
 
 
 //mongoose connection (mongo db)
@@ -46,18 +67,33 @@ mongoose.connect('mongodb+srv://admin:12!56!79@devapi.arzcgkl.mongodb.net/Node-A
 })
 
 //create a new event - dummy data
-const newEvent = new Event({
-    title: 'Sunavlia',
-    city: 'Athens',
-    type: 'Mousiki',
-    price: 0
-});
+//const newEvent = new Event({
+//    title: 'Sunavlia',
+//    city: 'Athens',
+//    type: 'Mousiki',
+//    price: 0
+//});
 
 //save the event to the database
-newEvent.save()
-.then((savedEvent) => {
-    console.log('Event saved:', savedEvent);
-})
-.catch((error) => {
-    console.error('Error saving event:', error);
-});
+//newEvent.save()
+//.then((savedEvent) => {
+//    console.log('Event saved:', savedEvent);
+//})
+//.catch((error) => {
+//    console.error('Error saving event:', error);
+//});
+
+// Δεδομένα προς αποθήκευση
+const eventsData = [
+    { title: 'Sunavlia', city: 'Athens', type: 'Mousiki', price: 0 },
+    // Πρόσθεσε άλλα δεδομένα εδώ αν χρειάζεται
+];
+
+// Αποθήκευση events στη βάση δεδομένων
+Event.insertMany(eventsData)
+    .then((savedEvents) => {
+        console.log('Events saved:', savedEvents);
+    })
+    .catch((error) => {
+        console.error('Error saving events:', error);
+    });
