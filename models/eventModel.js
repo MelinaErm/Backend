@@ -24,8 +24,28 @@ const eventSchema = mongoose.Schema(
             type: Number,
             required: true,
 
+        },
+
+        date: {
+            type: String,
+            required: true,
+        },
+
+        description: {
+            type: String,
+            required: true,
+        },
+
+        remaining_tickets: {
+            type: Number,
+            required: true,
+
+        },
+        
+        image: {
+            type: String,
+            required: true,
         }
-        //add more, the same way.. etc
         
 
     },
