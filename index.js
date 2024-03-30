@@ -60,6 +60,19 @@ app.get('/events/:id',async(req,res)=>{
     }
 })
 
+//30/3
+//get the events of a specific city
+app.get('/events/:city', async (req, res) => {
+    const city = req.params.city;
+    try {
+      const events = await Event.find({ city: city });
+      res.json(events);
+    } catch (error) {
+      res.status(500).send('Server error');
+    }
+  });
+
+
 //mongoose connection (mongo db)
 mongoose.connect('mongodb+srv://admin:12!56!79@devapi.arzcgkl.mongodb.net/Node-API?retryWrites=true&w=majority&appName=DevAPI')
 .then(()=>{
