@@ -18,7 +18,6 @@ app.get('/', (req, res) => {
         `
         <form action="/search" method="post">
             <input type="text" name="city" placeholder="City">
-            <input type="text" name="type" placeholder="Event Type">
             <button type="submit">Search</button>
         </form>
         `
@@ -26,11 +25,11 @@ app.get('/', (req, res) => {
 });
 
 
-//search for events based on city, type
+//search for events based on city
 app.post('/search', async (req, res) => {
-    const { city, type } = req.body;
+    const { city } = req.body;
     try {
-        const events = await Event.find({ city, type });
+        const events = await Event.find({ city });
         res.json(events);
     } catch (error) {
         res.status(500).json({ error: 'server error' });
@@ -64,14 +63,15 @@ app.get('/events/:id',async(req,res)=>{
 //get the events of a specific city
 app.get('/events/:city', async (req, res) => {
     const city = req.params.city;
-    try {
-      const events = await Event.find({ city: city });
-      res.json(events);
-    } catch (error) {
-      res.status(500).send('Server error');
+    try{
+        const event = await Event.find(city);
+        res.status(200).json(event);
     }
-  });
+    catch(error){
+        res.status(500).json({message:error.message})
+    }
 
+})
 
 //mongoose connection (mongo db)
 mongoose.connect('mongodb+srv://admin:12!56!79@devapi.arzcgkl.mongodb.net/Node-API?retryWrites=true&w=majority&appName=DevAPI')
@@ -92,7 +92,7 @@ const eventsData = [
       type: 'Music', 
       price: 0,
       date: '18-8-25 15:30',
-      description: 'Best music concert. Please get tickets as soon as possible.',
+      description: 'Best music concert...etc',
       remaining_tickets: 6,
       image: 'https://www.fridayhealthplans.com/en/blog/the-surprising-health-benefits-of-going-to-concerts/_jcr_content/root/container/container/image.coreimg.png/1677702333125/concert-canva-blog-png.png'
     },
@@ -101,7 +101,7 @@ const eventsData = [
       type: 'Music',
       price: 25,
       date: '12-3-25 16:30',
-      description: 'Best Park concert. Please get tickets as soon as possible.',
+      description: 'Best Park concert.',
       remaining_tickets: 3,
       image: 'https://assets1.cbsnewsstatic.com/i/cbslocal/wp-content/uploads/sites/14984641/2016/06/tustin.jpg'
      },
@@ -110,7 +110,7 @@ const eventsData = [
       type: 'Art',
       price: 10,
       date: '4-2-25 18:00',
-      description: 'Best Art exhibition. Please get tickets as soon as possible.',
+      description: 'Best Art exhibition.',
       remaining_tickets: 1,
       image: 'https://images.hindustantimes.com/img/2021/03/06/1600x900/pjimage_-_2021-03-06T192427.069_1615038899966_1615038907778.jpg'
     },
@@ -119,7 +119,7 @@ const eventsData = [
       type: 'Food', 
       price: 15,
       date: '19-10-26 11:00',
-      description: 'Best Food Festival. Please get tickets as soon as possible.',
+      description: 'Best Food Festival.',
       remaining_tickets: 20,
       image: 'https://www.thessalonikiguide.gr/wp-content/uploads/2019/04/street-food-festival.jpg'
     },
