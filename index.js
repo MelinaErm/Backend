@@ -1,77 +1,16 @@
-const express = require('express') //express 
-const app = express() 
+const express = require('express');
+const app = express();
+const mongoose = require('mongoose');
+const routes = require('./routes');
+const Event = require('./models/eventModel');
 
-//use middlewear 
+//use middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const mongoose = require('mongoose') //mongoose
-const Event = require('./models/eventModel'); //event Model
-
-
 //declare routes
-//get route
+app.use('/', routes);
 
-//Main Page with search bar
-app.get('/', (req, res) => {
-    res.send(
-        `
-        <form action="/search" method="post">
-            <input type="text" name="city" placeholder="City">
-            <button type="submit">Search</button>
-        </form>
-        `
-        );
-});
-
-
-//search for events based on city
-app.post('/search', async (req, res) => {
-    const { city } = req.body;
-    try {
-        const events = await Event.find({ city });
-        res.json(events);
-    } catch (error) {
-        res.status(500).json({ error: 'server error' });
-    }
-});
-
-//details of all events
-app.get('/events',async(req,res)=>{
-    try{
-        const events = await Event.find({});
-        res.status(200).json(events);
-    }
-    catch(error){
-        res.status(500).json({message:error.message})
-    }
-})
-
-//details of a specific event
-app.get('/events/:id',async(req,res)=>{
-    try{
-        const {id} = req.params;
-        const event = await Event.findById(id);
-        res.status(200).json(event);
-    }
-    catch(error){
-        res.status(500).json({message:error.message})
-    }
-})
-
-//30/3
-//get the events of a specific city
-app.get('/events/:city', async (req, res) => {
-    const city = req.params.city;
-    try{
-        const event = await Event.find(city);
-        res.status(200).json(event);
-    }
-    catch(error){
-        res.status(500).json({message:error.message})
-    }
-
-})
 
 //mongoose connection (mongo db)
 mongoose.connect('mongodb+srv://admin:12!56!79@devapi.arzcgkl.mongodb.net/Node-API?retryWrites=true&w=majority&appName=DevAPI')
@@ -135,7 +74,7 @@ const eventsData = [
     
 ];
 
-//save events to the mongo db atabase
+//save events to the mongo db
 Event.insertMany(eventsData)
     .then((savedEvents) => {
         console.log('Events saved:', savedEvents);
